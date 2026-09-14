@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#e9e2d7">
+<title>Айзирек & Тимур | 20.10.2026</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap');
+
+:root{
+  --cream:#eee8de;
+  --paper:#f8f5ef;
+  --dark:#292820;
+  --olive:#4b5140;
+  --gold:#a18b65;
+  --muted:#777269;
+  --line:rgba(41,40,32,.15);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Montserrat",Arial,sans-serif;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--dark);
+  font-family:var(--sans);
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+body.lock{
+  overflow:hidden;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* =========================
+   INTRO / ENVELOPE
+========================= */
+
+.intro{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 25%,#fffdf8 0%,transparent 35%),
+    linear-gradient(135deg,#f4eee4,#ded4c5);
+  transition:opacity 1.2s ease,visibility 1.2s ease;
+}
+
+.intro.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.intro-inner{
+  width:min(92%,450px);
+  text-align:center;
+}
+
+.intro-small{
+  font-size:9px;
+  letter-spacing:.38em;
+  text-transform:uppercase;
+  color:#777167;
+  margin-bottom:25px;
+}
+
+.envelope-wrap{
+  width:min(86vw,390px);
+  aspect-ratio:1.45;
+  margin:auto;
+  perspective:1200px;
+  filter:drop-shadow(0 30px 30px rgba(40,30,20,.18));
+}
+
+.envelope{
+  width:100%;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  background:#e9dfd0;
+}
+
+.envelope-back{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(145deg,#e5d9c8,#f4ecdf);
+}
+
+.paper{
+  position:absolute;
+  z-index:2;
+  left:11%;
+  right:11%;
+  top:9%;
+  bottom:0;
+  background:#fffdf8;
+  box-shadow:0 10px 25px rgba(30,25,18,.14);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:transform 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+.paper span{
+  font-family:var(--serif);
+  font-size:34px;
+  letter-spacing:.1em;
+}
+
+.flap{
+  position:absolute;
+  z-index:5;
+  top:0;
+  left:0;
+  width:100%;
+  height:62%;
+  background:#f0e6d7;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center;
+  transition:transform 1s cubic-bezier(.2,.8,.2,1);
+}
+
+.envelope.open .flap{
+  transform:rotateX(180deg);
+}
+
+.envelope.open .paper{
+  transform:translateY(-18%);
+}
+
+.seal{
+  position:absolute;
+  z-index:8;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:61px;
+  height:61px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--olive);
+  color:white;
+  font-family:var(--serif);
+  font-size:18px;
+  box-shadow:0 8px 25px rgba(40,45,30,.3);
+  transition:.5s ease;
+}
+
+.envelope.open .seal{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.5);
+}
+
+.open-btn{
+  margin-top:27px;
+  border:0;
+  background:none;
+  color:var(--dark);
+  font-size:10px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+}
+
+.open-btn:after{
+  content:"";
+  display:block;
+  width:40px;
+  height:1px;
+  background:var(--dark);
+  margin:8px auto 0;
+  transition:.3s;
+}
+
+.open-btn:hover:after{
+  width:100%;
+}
+
+/* =========================
+   MUSIC
+========================= */
+
+.music{
+  position:fixed;
+  right:18px;
+  top:18px;
+  z-index:1000;
+  width:45px;
+  height:45px;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:50%;
+  background:rgba(30,32,25,.5);
+  color:white;
+  backdrop-filter:blur(12px);
+  display:grid;
+  place-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.5s;
+}
+
+.music.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.music.active{
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    box-shadow:0 0 0 8px rgba(255,255,255,.08);
+  }
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background:#33382d;
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:saturate(.65) contrast(.9);
+  transform:scale(1.05);
+  animation:zoom 15s ease-out forwards;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10,12,8,.1),
+      rgba(10,12,8,.62)
+    );
+}
+
+@keyframes zoom{
+  from{transform:scale(1.1)}
+  to{transform:scale(1)}
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  color:white;
+  text-align:center;
+  padding:25px;
+  animation:appear 1.5s .4s both;
+}
+
+@keyframes appear{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.hero-top{
+  font-size:9px;
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  opacity:.82;
+  margin-bottom:25px;
+}
+
+.names{
+  font-family:var(--serif);
+  font-size:clamp(60px,12vw,135px);
+  line-height:.76;
+  font-weight:300;
+  letter-spacing:-.045em;
+}
+
+.and{
+  font-style:italic;
+  font-size:.55em;
+  margin:0 .05em;
+}
+
+.hero-date{
+  margin-top:35px;
+  font-size:10px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+}
+
+.scroll{
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:3;
+  color:white;
+  text-align:center;
+  font-size:8px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  opacity:.7;
+}
+
+.scroll-line{
+  width:1px;
+  height:45px;
+  background:rgba(255,255,255,.6);
+  margin:10px auto 0;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section{
+  width:min(1100px,90vw);
+  margin:auto;
+}
+
+.eyebrow{
+  font-size:9px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--olive);
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 1s ease,transform 1s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================
+   INVITATION
+========================= */
+
+.invitation{
+  padding:150px 0;
+  background:var(--paper);
+  text-align:center;
+}
+
+.invitation h2{
+  max-width:800px;
+  margin:22px auto 30px;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(43px,7vw,78px);
+  line-height:.96;
+}
+
+.invitation p{
+  max-width:650px;
+  margin:auto;
+  color:#686258;
+  font-size:13px;
+  line-height:2;
+}
+
+.ornament{
+  margin:30px auto;
+  font-family:var(--serif);
+  font-size:23px;
+  color:var(--gold);
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.details{
+  position:relative;
+  padding:115px 0;
+  background:var(--olive);
+  color:white;
+  overflow:hidden;
+}
+
+.details:before{
+  content:"20";
+  position:absolute;
+  right:-5vw;
+  top:10%;
+  font-family:var(--serif);
+  font-size:45vw;
+  line-height:.7;
+  opacity:.045;
+}
+
+.details-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(255,255,255,.2);
+  border-bottom:1px solid rgba(255,255,255,.2);
+}
+
+.detail{
+  padding:48px 20px;
+  text-align:center;
+}
+
+.detail+.detail{
+  border-left:1px solid rgba(255,255,255,.2);
+}
+
+.label{
+  font-size:8px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  opacity:.65;
+}
+
+.value{
+  margin-top:15px;
+  font-family:var(--serif);
+  font-size:34px;
+}
+
+.small{
+  margin-top:6px;
+  font-size:10px;
+  opacity:.65;
+}
+
+.map{
+  position:relative;
+  z-index:1;
+  text-align:center;
+}
+
+.map a{
+  display:inline-block;
+  margin-top:40px;
+  padding:15px 24px;
+  border:1px solid rgba(255,255,255,.45);
+  color:white;
+  text-decoration:none;
+  text-transform:uppercase;
+  letter-spacing:.25em;
+  font-size:8px;
+  transition:.3s;
+}
+
+.map a:hover{
+  background:white;
+  color:var(--olive);
+}
+
+/* =========================
+   PROGRAM
+========================= */
+
+.program{
+  padding:140px 0;
+  background:var(--paper);
+}
+
+.program-title{
+  text-align:center;
+  margin-bottom:70px;
+}
+
+.program-title h2{
+  margin:15px 0 0;
+  font-family:var(--serif);
+  font-size:clamp(48px,7vw,80px);
+  font-weight:400;
+}
+
+.timeline{
+  position:relative;
+  width:min(760px,100%);
+  margin:auto;
+}
+
+.timeline:before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  width:1px;
+  background:var(--line);
+}
+
+.event{
+  position:relative;
+  width:50%;
+  padding:0 45px 52px;
+}
+
+.event:nth-child(odd){
+  text-align:right;
+}
+
+.event:nth-child(even){
+  margin-left:50%;
+}
+
+.event:after{
+  content:"";
+  position:absolute;
+  top:7px;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--olive);
+  border:3px solid var(--paper);
+  box-shadow:0 0 0 1px var(--olive);
+}
+
+.event:nth-child(odd):after{
+  right:-5px;
+}
+
+.event:nth-child(even):after{
+  left:-5px;
+}
+
+.event-time{
+  color:var(--olive);
+  font-family:var(--serif);
+  font-size:28px;
+}
+
+.event-title{
+  margin-top:4px;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.event-desc{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.8;
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown{
+  min-height:530px;
+  padding:110px 0;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:white;
+  background:
+    linear-gradient(rgba(28,32,23,.65),rgba(28,32,23,.72)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=85")
+    center/cover;
+}
+
+.countdown .eyebrow{
+  color:rgba(255,255,255,.7);
+}
+
+.countdown h2{
+  font-family:var(--serif);
+  font-size:clamp(48px,8vw,84px);
+  font-weight:300;
+  margin:15px 0 45px;
+}
+
+.timer{
+  display:flex;
+  justify-content:center;
+  gap:clamp(18px,5vw,60px);
+}
+
+.num{
+  font-family:var(--serif);
+  font-size:clamp(42px,6vw,68px);
+  line-height:1;
+}
+
+.timer-label{
+  margin-top:8px;
+  font-size:8px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  opacity:.65;
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery{
+  padding:135px 0;
+  background:var(--cream);
+}
+
+.gallery-head{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.gallery-head h2{
+  font-family:var(--serif);
+  font-size:clamp(48px,7vw,80px);
+  font-weight:400;
+  margin:15px 0;
+}
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:18px;
+}
+
+.photo{
+  overflow:hidden;
+  background:#d7d0c4;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  transition:transform 1s ease;
+}
+
+.photo:hover img{
+  transform:scale(1.05);
+}
+
+.big-photo{
+  height:700px;
+}
+
+.small-photo{
+  height:341px;
+}
+
+.small-photo+.small-photo{
+  margin-top:18px;
+}
+
+.caption{
+  text-align:center;
+  margin-top:30px;
+  font-family:var(--serif);
+  font-size:25px;
+  font-style:italic;
+  color:var(--muted);
+}
+
+/* =========================
+   RSVP
+========================= */
+
+.rsvp{
+  padding:135px 0;
+  background:#e6ded2;
+  display:grid;
+  place-items:center;
+}
+
+.card{
+  width:min(650px,92vw);
+  padding:clamp(35px,7vw,75px);
+  background:var(--paper);
+  box-shadow:0 30px 80px rgba(30,25,18,.15);
+  text-align:center;
+}
+
+.card h2{
+  font-family:var(--serif);
+  font-size:clamp(48px,7vw,75px);
+  font-weight:400;
+  line-height:.9;
+  margin:15px 0 20px;
+}
+
+.card-intro{
+  max-width:480px;
+  margin:0 auto 35px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.9;
+}
+
+.field{
+  text-align:left;
+  margin:24px 0;
+}
+
+.field-title{
+  display:block;
+  margin-bottom:9px;
+  color:#777168;
+  font-size:8px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+
+.name-input{
+  width:100%;
+  padding:12px 0;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--line);
+  outline:none;
+  color:var(--dark);
+}
+
+.choices{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.choice{
+  position:relative;
+  border:1px solid var(--line);
+  padding:15px 8px;
+  text-align:center;
+  font-size:9px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.choice input{
+  position:absolute;
+  opacity:0;
+}
+
+.choice.selected{
+  border-color:var(--olive);
+  color:var(--olive);
+  background:rgba(75,81,64,.07);
+}
+
+.number{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+}
+
+.number button{
+  width:35px;
+  height:35px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:none;
+}
+
+#guestCount{
+  min-width:25px;
+  text-align:center;
+  font-family:var(--serif);
+  font-size:28px;
+}
+
+.submit{
+  width:100%;
+  margin-top:25px;
+  padding:17px;
+  border:0;
+  background:var(--olive);
+  color:white;
+  text-transform:uppercase;
+  letter-spacing:.25em;
+  font-size:8px;
+  transition:.3s;
+}
+
+.submit:hover{
+  transform:translateY(-2px);
+}
+
+.success{
+  display:none;
+}
+
+.success.show{
+  display:block;
+}
+
+.success h3{
+  font-family:var(--serif);
+  font-size:40px;
+  font-weight:400;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  padding:70px 20px 45px;
+  background:var(--olive);
+  color:white;
+  text-align:center;
+}
+
+.footer-names{
+  font-family:var(--serif);
+  font-size:45px;
+  font-weight:300;
+}
+
+footer p{
+  font-size:8px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  opacity:.55;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+  .names{
+    font-size:18vw;
+  }
+
+  .hero-date{
+    font-size:8px;
+    letter-spacing:.24em;
+  }
+
+  .invitation,
+  .program,
+  .gallery,
+  .rsvp{
+    padding-top:95px;
+    padding-bottom:95px;
+  }
+
+  .details{
+    padding:85px 0;
+  }
+
+  .details-grid{
+    grid-template-columns:1fr;
+  }
+
+  .detail{
+    padding:30px 15px;
+  }
+
+  .detail+.detail{
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.2);
+  }
+
+  .timeline:before{
+    left:9px;
+  }
+
+  .event,
+  .event:nth-child(even){
+    width:100%;
+    margin-left:0;
+    padding:0 0 42px 40px;
+    text-align:left;
+  }
+
+  .event:nth-child(odd):after,
+  .event:nth-child(even):after{
+    left:5px;
+    right:auto;
+  }
+
+  .timer{
+    gap:14px;
+  }
+
+  .choices{
+    grid-template-columns:1fr;
+  }
+
+  .gallery-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .big-photo{
+    height:540px;
+  }
+
+  .small-photo{
+    height:330px;
+  }
+
+  .small-photo+.small-photo{
+    margin-top:12px;
+  }
+
+  .music{
+    right:14px;
+    top:14px;
+  }
+}
+</style>
+</head>
+
+<body class="lock">
+
+<!-- =========================
+     OPENING ENVELOPE
+========================= -->
+
+<div class="intro" id="intro">
+
+  <div class="intro-inner">
+
+    <div class="intro-small">
+      Wedding Invitation · 2026
+    </div>
+
+    <div class="envelope-wrap">
+
+      <div class="envelope" id="envelope">
+
+        <div class="envelope-back"></div>
+
+        <div class="paper">
+          <span>A &amp; T</span>
+        </div>
+
+        <div class="flap"></div>
+
+        <div class="seal">
+          A &amp; T
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="intro-small">
+      Сизге өзгөчө чакыруу келди
+    </div>
+
+    <button class="open-btn" id="openBtn">
+      Чакырууны ачуу
+    </button>
+
+  </div>
+</div>
+
+
+<!-- MUSIC BUTTON -->
+
+<button class="music" id="musicBtn">
+  <span id="musicSymbol">♫</span>
+</button>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+  <img
+    class="hero-bg"
+    src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=2200&q=90"
+    alt="Wedding">
+
+  <div class="hero-content">
+
+    <div class="hero-top">
+      Биздин өзгөчө күн
+    </div>
+
+    <div class="names">
+      Айзирек
+      <span class="and">&amp;</span>
+      Тимур
+    </div>
+
+    <div class="hero-date">
+      20 · Октябрь · 2026 &nbsp; / &nbsp; Бишкек
+    </div>
+
+  </div>
+
+  <div class="scroll">
+    Ылдый жылдырыңыз
+    <div class="scroll-line"></div>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     INVITATION
+========================= -->
+
+<section class="invitation">
+
+  <div class="section reveal">
+
+    <div class="eyebrow">
+      Invitation
+    </div>
+
+    <h2>
+      Биздин эң бактылуу күнүбүздү
+      сиздер менен бирге өткөргүбүз келет.
+    </h2>
+
+    <div class="ornament">
+      ✦
+    </div>
+
+    <p>
+      Кымбаттуу жакындарыбыз!<br><br>
+      Биз үчүн өзгөчө болгон бул күндө
+      сиздердин жылуу каалооңуздарга,
+      жакшы тилектериңиздерге жана
+      катышууңуздарга кубанычтабыз.
+      <br><br>
+      Сиздер менен бирге өткөрүлгөн
+      ар бир көз ирмем бул майрамды
+      дагы да баалуу кылат.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     DETAILS
+========================= -->
+
+<section class="details">
+
+  <div class="section reveal">
+
+    <div class="details-grid">
+
+      <div class="detail">
+        <div class="label">Күнү</div>
+        <div class="value">20 Октябрь</div>
+        <div class="small">2026-жыл</div>
+      </div>
+
+      <div class="detail">
+        <div class="label">Убактысы</div>
+        <div class="value">18:00</div>
+        <div class="small">Конокторду тосуп алуу</div>
+      </div>
+
+      <div class="detail">
+        <div class="label">Дареги</div>
+        <div class="value">Ала-Тоо</div>
+        <div class="small">Бишкек шаары · ресторан</div>
+      </div>
+
+    </div>
+
+    <div class="map">
+
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=%D0%90%D0%BB%D0%B0-%D0%A2%D0%BE%D0%BE%20%D1%80%D0%B5%D1%81%D1%82%D0%BE%D1%80%D0%B0%D0%BD%D1%8B%20%D0%91%D0%B8%D1%88%D0%BA%D0%B5%D0%BA"
+        target="_blank"
+        rel="noopener">
+        Картадан көрүү ↗
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PROGRAM
+========================= -->
+
+<section class="program">
+
+  <div class="section">
+
+    <div class="program-title reveal">
+
+      <div class="eyebrow">
+        The Celebration
+      </div>
+
+      <h2>
+        Тойдун программасы
+      </h2>
+
+    </div>
+
+
+    <div class="timeline reveal">
+
+      <div class="event">
+        <div class="event-time">18:00</div>
+        <div class="event-title">Конокторду тосуп алуу</div>
+        <div class="event-desc">
+          Жолугушуу, сүрөткө түшүү жана
+          жагымдуу баарлашуу.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">18:30</div>
+        <div class="event-title">Салтанаттын башталышы</div>
+        <div class="event-desc">
+          Айзирек менен Тимурдун
+          өзгөчө күнүнүн башталышы.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">19:00</div>
+        <div class="event-title">Майрамдык дасторкон</div>
+        <div class="event-desc">
+          Жакындарыбыз менен бир
+          дасторкондо жылуу көз ирмемдер.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">20:00</div>
+        <div class="event-title">Биринчи бий</div>
+        <div class="event-desc">
+          Кеченин эң назик жана
+          романтикалуу көз ирмеми.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">20:30</div>
+        <div class="event-title">Куттуктоолор</div>
+        <div class="event-desc">
+          Жакындарыбыздын жылуу сөздөрү
+          жана каалоо-тилектери.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">21:00</div>
+        <div class="event-title">Музыка &amp; бий</div>
+        <div class="event-desc">
+          Көңүл ачып, бул кечени
+          чогуу улантабыз.
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-time">23:00</div>
+        <div class="event-title">Кеченин жыйынтыгы</div>
+        <div class="event-desc">
+          Унутулгус күндүн акыркы,
+          бирок жылуу көз ирмемдери.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     COUNTDOWN
+========================= -->
+
+<section class="countdown">
+
+  <div class="section reveal">
+
+    <div class="eyebrow">
+      Until we say “I do”
+    </div>
+
+    <h2>
+      Биздин күнгө чейин...
+    </h2>
+
+    <div class="timer">
+
+      <div>
+        <div cla
